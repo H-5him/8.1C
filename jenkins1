@@ -1,0 +1,41 @@
+pipeline {
+  agent any
+  triggers { pollSCM('H/5 * * * *') }
+  stages {
+    stage('Build') {
+      steps {
+        echo 'Compile & package using Maven'         // Tool: Maven
+      }
+    }
+    stage('Unit & Integration Tests') {
+      steps {
+        echo 'Run JUnit for units & TestNG for integration' // Tools: JUnit, TestNG
+      }
+    }
+    stage('Code Analysis') {
+      steps {
+        echo 'Static analysis with SonarQube Scanner'  // Tool: SonarQube
+      }
+    }
+    stage('Security Scan') {
+      steps {
+        echo 'Scan with OWASP Dependency-Check'       // Tool: Dependency-Check
+      }
+    }
+    stage('Deploy to Staging') {
+      steps {
+        echo 'Deploy WAR to AWS EC2 via AWS CLI'      // Tool: AWS CLI
+      }
+    }
+    stage('Integration Tests on Staging') {
+      steps {
+        echo 'Run Postman/Newman tests against staging' // Tool: Newman
+      }
+    }
+    stage('Deploy to Production') {
+      steps {
+        echo 'Deploy to production EC2 via AWS CLI'   // Tool: AWS CLI
+      }
+    }
+  }
+}
